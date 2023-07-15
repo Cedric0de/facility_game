@@ -10,7 +10,7 @@ public class EnemyShooterMovement : MonoBehaviour
 
     public LayerMask whatIsGround, whatIsPlayer;
 
-    public float health;
+    public int health;
 
     //Patroling
     public Vector3 walkPoint;
@@ -114,5 +114,12 @@ public class EnemyShooterMovement : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "Playerbullet(Clone)")
+        {
+            TakeDamage(20);
+        }
     }
 }

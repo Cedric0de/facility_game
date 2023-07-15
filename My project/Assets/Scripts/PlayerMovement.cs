@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     float doubled;
     float halved;
     public Camera Cam;
+    public int health;
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +48,17 @@ public class PlayerMovement : MonoBehaviour
             transform.position += new Vector3(0,0,0);
         }
     }
+    private void TakeDamage(int damage)
+    {
+        health -= damage;
+
+        if (health <= 0) Die();
+    }
+    private void Die()
+    {
+        transform.position = new Vector3(0,1,-21);
+        health = 100;
+    }
     private void LookAtMouse()
     {
         Ray ray = Cam.ScreenPointToRay(Input.mousePosition);
@@ -60,5 +72,12 @@ public class PlayerMovement : MonoBehaviour
             targetPoint = ray.GetPoint(75);
         targetPoint.y = 1;
         transform.LookAt(targetPoint);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.name == "bullet(Clone)")
+        {
+            TakeDamage(20);
+        }
     }
 }
